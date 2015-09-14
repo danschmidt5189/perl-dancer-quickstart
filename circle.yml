@@ -11,5 +11,5 @@ dependencies:
 test:
   override:
     - cat /dev/null > $PERL_PROVE_RESULTS
-    - ops/test.sh --jobs 4 > $PERL_PROVE_RESULTS
+    - prove --lib --verbose --merge --recurse > $PERL_PROVE_RESULTS
     - cat $PERL_PROVE_RESULTS
