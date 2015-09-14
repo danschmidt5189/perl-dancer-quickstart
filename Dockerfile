@@ -1,14 +1,14 @@
-# DOCKER-VERSION 0.3.4
+# DOCKER-VERSION 1.8.2
 FROM       perl:latest
 MAINTAINER Daniel Schmidt danschmidt5189@gmail.com
 
-RUN cachebuster=b953b35 git clone git@github.com:danschmidt5189/perl-dancer-quickstart.git
-RUN cd perl-dancer-quickstart
-RUN chmod +x ops/*
-RUN ops/install.sh
+# Install dependencies
+WORKDIR /tmp
+ADD cpanfile cpanfile
+RUN cpanm --notest --quiet --installdeps .
 
-EXPOSE 3000
+# Add the source code
+ADD . /srv/dancer
 
-WORKDIR perl-dancer-quickstart
-
-CMD ops/run.pl
+WORKDIR /srv/dancer
+ENTRYPOINT ["perl", "-Ilib", "-w", "bin/app.pl"]
