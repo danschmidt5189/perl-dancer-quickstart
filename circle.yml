@@ -7,9 +7,9 @@ dependencies:
     - ~/perl5
   post:
     - chmod +x ops/*
-    - ops/install.sh
+    - ops/install.sh --notest --quiet
 test:
   override:
     - cat /dev/null > $PERL_PROVE_RESULTS
-    - prove --lib --verbose --merge --recurse > $PERL_PROVE_RESULTS
+    - prove -I ~/perl5/lib --lib --verbose --merge --recurse > $PERL_PROVE_RESULTS
     - cat $PERL_PROVE_RESULTS
