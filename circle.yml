@@ -1,17 +1,17 @@
 machine:
   environment:
     PATH: ~/perl5/bin:$PATH
-    PERL_DEPS_DIR: ~/perl5
-    PERL_PROVE_OPTS: --lib --merge --recurse --timer --verbose
     PERL_PROVE_RESULTS: $CIRCLE_TEST_REPORTS/prove_results.txt
 dependencies:
   cache_directories:
     - ~/perl5
   post:
     - chmod +x ops/*
-    - ops/install.sh $PERL_DEPS_DIR
+    - cpanm --local-lib=~/perl5 local::lib
+    - eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+    - ops/install.sh --notest --quiet
 test:
   override:
     - cat /dev/null > $PERL_PROVE_RESULTS
-    - prove -Mlocal::lib=$PERL_DEPS_DIR $PERL_PROVE_OPTS > $PERL_PROVE_RESULTS
+    - prove --lib --verbose --merge --recurse > $PERL_PROVE_RESULTS
     - cat $PERL_PROVE_RESULTS
