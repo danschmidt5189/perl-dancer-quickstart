@@ -1,0 +1,5 @@
+# Ignore build files
+Atari-*
+
+# Ignore dependencies folder
+locallib
